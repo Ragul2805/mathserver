@@ -1,5 +1,5 @@
 # Ex.05 Design a Website for Server Side Processing
-# Date:
+# Date:04.10.2025
 # AIM:
 To design a website to calculate the power of a lamp filament in an incandescent bulb in the server side.
 
@@ -29,7 +29,90 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 # PROGRAM :
+```
+math.html
+!DOCTYPE html>
+<html>
+<head>
+    <title>POWER CALCULATOR</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', sans-serif;
+            text-align: center;
+            margin-top: 50px
+           
+        }
+        .container {
+            max-width: 300px;
+            margin: auto;
+            padding: 30px;
+            border: 10px solid=cyan;
+            background-color:tan;
+            border-radius:20px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body style="background:linear-gradient(rgb(212, 255, 0),rgb(11, 0, 128),cyan);">
+    <body><form method="POST">
+        {% csrf_token %}
+    <div class="container">
+        <h2>POWER CALCULATOR </h2>
+      Current (A):
+        <input type="text" name="current" 
+        placeholder="{{current}}"></input><br>
+      Resistance (ohms):
+        <input type="text" name="resistance" 
+        placeholder="{{resistance}}"></input><br>
+        <button type="submit">CALCULATOR</button><br>
+      POWER:<input type="text" name="power" 
+        value="{{power}}"></input>W</div>
+        
+    </div>
+    </form>   
+</body>      
+</html>
+
+
+views.py
+from django.shortcuts import render
+
+
+def power(request):
+    context={}
+    context['power']=""
+    context['current']="0"
+    context['resistance']="0"
+    if request.method =="POST":
+        print("POST method is used")
+        current = request.POST.get('current','0')
+        resistance= request.POST.get('resistance','0')
+        print('request=',request)
+        print('current=',current)
+        print('Resistance=',resistance)
+        power=(int(current)**2)*int(resistance)
+        context['power']= power
+        context['current']= current
+        context['resistance']= resistance
+        print('Power=',power)
+    return render(request,'math.html',context)
+
+    urls.py
+    from django.contrib import admin
+from django.urls import path
+from mathapp import views
+urlpatterns =[
+    path('admin/',admin.site.urls),
+    path('',views.power,name="ragul")
+]
+```
+
 # SERVER SIDE PROCESSING:
+![alt text](<Screenshot 2025-10-04 082710.png>)
 # HOMEPAGE:
+![alt text](<Screenshot 2025-10-04 082617.png>)
 # RESULT:
 The program for performing server side processing is completed successfully.
